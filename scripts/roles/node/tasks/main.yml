@@ -1,0 +1,26 @@
+---
+  - name: Add Nodesource repository
+    shell: "curl --silent --location https://rpm.nodesource.com/setup_16.x | sudo bash -"
+    args:
+      warn: no
+  - name: Install Node.js and npm
+    yum:
+      name:
+        - nodejs
+      state: latest
+
+  - name: Check Node.js version
+    command: node -v
+    register: node_version
+
+  - name: Check npm version
+    command: npm -v
+    register: npm_version
+
+  - name: Display Node.js version
+    debug:
+      msg: "Node.js version: {{ node_version.stdout }}"
+
+  - name: Display npm version
+    debug:
+      msg: "npm version: {{ npm_version.stdout }}"

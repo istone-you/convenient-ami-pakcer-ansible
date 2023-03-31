@@ -1,0 +1,13 @@
+---
+  - name: Download and execute Trivy installation script
+    shell: "curl -sfL {{ trivy_install_script_url }} | sh -s -- -b {{ trivy_install_dir }} v{{ trivy_version }}"
+    args:
+      warn: no
+
+  - name: Check Trivy version
+    command: "{{ trivy_install_dir }}/trivy --version"
+    register: trivy_version_output
+
+  - name: Display Trivy version
+    debug:
+      msg: "{{ trivy_version_output.stdout }}"

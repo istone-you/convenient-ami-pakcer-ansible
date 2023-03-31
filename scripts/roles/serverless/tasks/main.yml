@@ -1,0 +1,13 @@
+---
+  - name: Install Serverless Framework globally
+    shell: npm install -g serverless
+    become: no
+
+  - name: Check Serverless Framework version
+    command: "serverless --version"
+    register: serverless_version_output
+    become: no
+
+  - name: Display Serverless Framework version
+    debug:
+      msg: "{{ serverless_version_output.stdout }}"

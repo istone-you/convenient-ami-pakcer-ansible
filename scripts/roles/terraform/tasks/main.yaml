@@ -1,0 +1,32 @@
+---
+  - name: Install unzip if not present
+    package:
+      name: unzip
+      state: present
+
+  - name: Download Terraform
+    get_url:
+      url: "{{ terraform_download_url }}"
+      dest: "/tmp/terraform_{{ terraform_version }}_linux_amd64.zip"
+      mode: '0755'
+
+  - name: Unzip Terraform binary
+    unarchive:
+      src: "/tmp/terraform_{{ terraform_version }}_linux_amd64.zip"
+      dest: "{{ terraform_install_dir }}"
+      remote_src: yes
+      mode: '0755'
+      creates: "{{ terraform_install_dir }}/terraform"
+
+  - name: Clean up Terraform zip file
+    file:
+      path: "/tmp/terraform_{{ terraform_version }}_linux_amd64.zip"
+      state: absent
+
+  - name: Check Terraform version
+    command: "{{ terraform_install_dir }}/terraform version"
+    register: terraform_version_output
+
+  - name: Display Terraform version
+    debug:
+      msg: "{{ terraform_version_output.stdout }}"
