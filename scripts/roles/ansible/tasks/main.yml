@@ -1,0 +1,16 @@
+---
+  - name:  Enable Ansible Installation
+    shell: amazon-linux-extras enable ansible2
+
+  - name:  Install Ansible
+    shell: yum install -y ansible
+
+  - name:  Check Ansible version
+    command: ansible --version
+    register: ansible_version
+    become: no
+    ignore_errors: true
+
+  - name:  Display Ansible version
+    debug:
+      msg: "Ansible version: {{ ansible_version }}"

@@ -3,6 +3,8 @@
   become: yes
   roles:
     - node
+    - git
+    - ansible
     - terraform
     - trivy
     - serverless
